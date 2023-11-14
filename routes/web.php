@@ -41,4 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
+
+    Route::get('admin', function () {
+       return view('livewire.pages.admin.index');
+    })->name('admin.index');
 });
