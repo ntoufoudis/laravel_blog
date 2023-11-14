@@ -7,26 +7,35 @@ test('confirm password screen can be rendered', function () {
 
     $response = $this->actingAs($user)->get('/confirm-password');
 
-    $response->assertStatus(200);
+    $response
+        ->assertSeeLivewire('pages.auth.confirm-password')
+        ->assertStatus(200);
 });
 
 test('password can be confirmed', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/confirm-password', [
-        'password' => 'password',
-    ]);
+    Livewire::actingAs($user);
 
-    $response->assertRedirect();
-    $response->assertSessionHasNoErrors();
+    $component = Livewire::test('pages.auth.confirm-password')
+        ->set('password', 'password')
+        ->call('confirmPassword');
+
+    $component
+        ->assertRedirect('/dashboard')
+        ->assertHasNoErrors();
 });
 
 test('password is not confirmed with invalid password', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)->post('/confirm-password', [
-        'password' => 'wrong-password',
-    ]);
+    Livewire::actingAs($user);
 
-    $response->assertSessionHasErrors();
+    $component = Livewire::test('pages.auth.confirm-password')
+        ->set('password', 'wrong-password')
+        ->call('confirmPassword');
+
+    $component
+        ->assertNoRedirect()
+        ->assertHasErrors('password');
 });

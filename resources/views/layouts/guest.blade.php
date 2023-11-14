@@ -8,6 +8,8 @@
         <title>{{ $title ?? config('app.name') }}</title>
 
         <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -16,7 +18,7 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
-                <a href="/">
+                <a href="/" wire:navigate>
                     <svg
                         viewBox="0 0 316 316"
                         xmlns="http://www.w3.org/2000/svg"

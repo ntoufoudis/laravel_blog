@@ -7,26 +7,24 @@ test('profile page is displayed', function () {
 
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
-        ->get('/profile');
+    Livewire::actingAs($user);
 
-    $response->assertOk();
+    Livewire::test('pages.profile')->assertOk();
 });
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
-        ->patch('/profile', [
-            'name' => 'Test User',
-            'email' => 'test@example.com'
-        ]);
+    Livewire::actingAs($user);
 
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/profile');
+    $component = Livewire::test('pages.profile')
+    ->set('name', 'Test User')
+    ->set('email', 'test@example.com')
+    ->call('updateProfileInformation');
+
+    $component
+        ->assertHasNoErrors()
+        ->assertNoRedirect();
 
     $user->refresh();
 
@@ -38,48 +36,49 @@ test('profile information can be updated', function () {
 test('email verification status is unchanged when the email address is unchanged', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
-        ->patch('/profile', [
-            'name' => 'Test User',
-            'email' => $user->email,
-        ]);
+    Livewire::actingAs($user);
 
-    $response
-        ->assertSessionHasNoErrors()
-        ->assertRedirect('/profile');
+    $component = Livewire::test('pages.profile')
+        ->set('name', 'Test User')
+        ->set('email', $user->email)
+        ->call('updateProfileInformation');
+
+    $component
+        ->assertHasNoErrors()
+        ->assertNoRedirect();
 
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 
 test('user can delete their account', function () {
-   $user = User::factory()->create();
+    $user = User::factory()->create();
 
-   $response = $this
-       ->actingAs($user)
-       ->delete('/profile', [
-           'password' => 'password',
-       ]);
+    Livewire::actingAs($user);
 
-   $response
-       ->assertSessionHasNoErrors()
-       ->assertRedirect('/');
+    $component = Livewire::test('pages.profile')
+        ->set('delete_password', 'password')
+        ->call('deleteUser');
 
-   $this->assertGuest();
-   $this->assertNull($user->fresh());
+    $component
+        ->assertHasNoErrors()
+        ->assertRedirect('/');
+
+    $this->assertGuest();
+    $this->assertNull($user->fresh());
 });
 
 test('correct password must be provided to delete account', function () {
-   $user = User::factory()->create();
+    $user = User::factory()->create();
 
-   $response = $this
-       ->actingAs($user)
-       ->from('/profile')
-       ->delete('/profile', [
-          'password' => 'wrong-password',
-       ]);
+    Livewire::actingAs($user);
 
-   $response
-       ->assertSessionHasErrorsIn('userDeletion', 'password')
-       ->assertRedirect('/profile');
+    $component = Livewire::test('pages.profile')
+        ->set('delete_password', 'wrong-password')
+        ->call('deleteUser');
+
+    $component
+        ->assertHasErrors('delete_password')
+        ->assertNoRedirect();
+
+    $this->assertNotNull($user->fresh());
 });
