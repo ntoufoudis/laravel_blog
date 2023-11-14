@@ -1,27 +1,8 @@
 <div>
     <form wire:submit="register">
-        <!-- Name -->
-        <div>
-            <label class="block font-medium text-sm text-gray-700" for="name">
-                {{ __('Name') }}
-            </label>
-
-            <input
-                wire:model="name"
-                id="name"
-                type="text"
-                name="name"
-                required
-                autofocus
-                autocomplete="name"
-                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md
-                    shadow-sm"
-            >
-            <x-input-error :messages="$errors->get('name')" class="mt-2"/>
-        </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
+        <div>
             <label class="block font-medium text-sm text-gray-700" for="email">
                 {{ __('Email') }}
             </label>

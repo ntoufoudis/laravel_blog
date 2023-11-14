@@ -15,7 +15,6 @@ use Nette\Schema\ValidationException;
 
 class Profile extends Component
 {
-    public string $name = '';
     public string $email = '';
     public string $current_password = '';
     public string $password = '';
@@ -24,7 +23,6 @@ class Profile extends Component
 
     public function mount(): void
     {
-        $this->name = auth()->user()->name;
         $this->email = auth()->user()->email;
     }
 
@@ -43,7 +41,6 @@ class Profile extends Component
         $user = Auth::user();
 
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -62,7 +59,7 @@ class Profile extends Component
 
         $user->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        $this->dispatch('profile-updated');
     }
 
     public function sendVerification(): void

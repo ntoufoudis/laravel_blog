@@ -13,7 +13,6 @@ use Livewire\Component;
 
 class Register extends Component
 {
-    public string $name = '';
 
     public string $email = '';
 
@@ -24,11 +23,6 @@ class Register extends Component
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255'
-            ],
             'email' => [
                 'required',
                 'string',

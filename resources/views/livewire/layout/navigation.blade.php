@@ -83,7 +83,7 @@
                                 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none
                                 transition ease-in-out duration-150">
                             <div
-                                x-data="{ name: '{{ auth()->user()->name }}' }"
+                                x-data="{ name: '{{ auth()->user()->email }}' }"
                                 x-text="name"
                                 x-on:profile-updated.window="name = $event.detail.name"
                             ></div>

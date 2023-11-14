@@ -18,7 +18,6 @@ test('profile information can be updated', function () {
     Livewire::actingAs($user);
 
     $component = Livewire::test('pages.profile')
-    ->set('name', 'Test User')
     ->set('email', 'test@example.com')
     ->call('updateProfileInformation');
 
@@ -28,7 +27,6 @@ test('profile information can be updated', function () {
 
     $user->refresh();
 
-    $this->assertSame('Test User', $user->name);
     $this->assertSame('test@example.com', $user->email);
     $this->assertNull($user->email_verified_at);
 });
@@ -39,7 +37,6 @@ test('email verification status is unchanged when the email address is unchanged
     Livewire::actingAs($user);
 
     $component = Livewire::test('pages.profile')
-        ->set('name', 'Test User')
         ->set('email', $user->email)
         ->call('updateProfileInformation');
 
