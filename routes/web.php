@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Livewire\Pages\Admin\Users;
 use App\Livewire\Pages\Auth\ConfirmPassword;
 use App\Livewire\Pages\Auth\ForgotPassword;
 use App\Livewire\Pages\Auth\Login;
@@ -45,4 +46,5 @@ Route::middleware('auth')->group(function () {
     Route::get('admin', function () {
        return view('livewire.pages.admin.index');
     })->name('admin.index');
+    Route::get('admin/users', Users::class)->name('admin.users');
 });

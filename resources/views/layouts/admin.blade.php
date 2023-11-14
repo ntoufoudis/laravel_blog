@@ -13,17 +13,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
             <livewire:layout.admin-navigation/>
 
             <!-- Page Content -->
-            <main class="p-4 sm:ml-64 w-full">
+            <main class="p-4 sm:ml-64">
                 {{ $slot }}
             </main>
         </div>
-        @livewireScripts
     </body>
 </html>
